@@ -22,22 +22,22 @@
    git clone https://github.com/xJakubi/athenamarket.git
 
 2. ```⚙️ Add to server.cfg
-Ensure you add the following line to your server.cfg file.
+```Ensure you add the following line to your server.cfg file.
 ---
 3. **🛠️ Database Setup
-Upon starting, the resource will automatically create the required database table (market_listings).
+```Upon starting, the resource will automatically create the required database table (market_listings).
 ---
 4. **🖼️ Item Images
-Place images for items in the images folder. Ensure that filenames correspond to the item names used in your inventory.
+```Place images for items in the images folder. Ensure that filenames correspond to the item names used in your inventory.
 ---
 ##⚙️ Configuration
-⚙️ Debug Mode: Toggle debug logs on or off for troubleshooting.
+```⚙️ Debug Mode: Toggle debug logs on or off for troubleshooting.
 🔧 Database Table Name: Modify the database table name if necessary.
 🛒 Market Listing Settings: Adjust the limits for item quantities and pricing structures.
 🔔 Notification Messages: Tailor the in-game messages shown to players for various market actions.
 ---
 ##📦 Usage
-🛍️ Opening the Market Interface: Players can open the market interface using the /market command.
+```🛍️ Opening the Market Interface: Players can open the market interface using the /market command.
 💵 Listing Items for Sale: Players can list their items by selecting an item from their inventory, specifying the quantity, and setting a price.
 🛒 Purchasing Items: Players can browse available listings and make purchases directly from other players.
 ---
