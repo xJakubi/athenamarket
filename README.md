@@ -1,72 +1,78 @@
 # AthenaMarket
 
-AthenaMarket is a **player-driven market system** for FiveM, seamlessly integrated with **ox_inventory** and **ESX**. This resource enables players to **list items for sale** and **purchase items** from others in a **user-friendly interface**.
+**AthenaMarket** is a sophisticated, **player-driven market system** for FiveM, seamlessly integrated with **ox_inventory** and **ESX**. This resource empowers players to easily **list items for sale** and **purchase items** from others within a **streamlined, user-friendly interface**.
 
 ---
 
-## Features
+## 🌟 Features
 
-- **Player-Driven Market**:  
-  - Players can list their items for sale and buy items from others.
+- **🔹 Player-Driven Market**  
+  Players have full control to list their items for sale and purchase from others directly.
 
-- **Inventory Integration**:  
-  - Seamlessly integrates with **ox_inventory** to manage player inventories.
+- **🔹 Inventory Integration**  
+  Fully integrates with **ox_inventory**, enabling efficient management of player inventories.
 
-- **Dynamic UI**:  
-  - A modern and responsive user interface for market interactions.
+- **🔹 Dynamic User Interface**  
+  A sleek, modern, and responsive UI designed for seamless market interactions.
 
-- **Configurable Settings**:  
-  - Easily customizable settings for market behavior and notifications.
+- **🔹 Customizable Settings**  
+  Tailor the market's behavior and notifications with easy-to-use configuration options.
 
 ---
 
-## Installation
+## 🚀 Installation
 
-1. **Download the Repository**:  
+1. **Download the Repository**  
    Clone or download this repository to your FiveM resources folder.
 
    ```bash
    git clone https://github.com/xJakubi/athenamarket.git
-Add to server.cfg:
-Ensure you add the resource to your server.cfg file.
+Add to server.cfg
+Ensure you add the following line to your server.cfg file.
 
 plaintext
 Copy
 start athenamarket
-Database Setup:
-The resource will automatically create the necessary database table (market_listings) upon starting.
+Database Setup
+Upon starting, the resource will automatically create the required database table (market_listings).
 
-Images:
-Place images for items in the images folder. Ensure the filenames match the item names used in your inventory.
+Item Images
+Place images for items in the images folder. Ensure that filenames correspond to the item names used in your inventory.
 
-Configuration
-Open config.lua to customize the following settings:
+⚙️ Configuration
+Customize the following settings by editing the config.lua file:
 
-Debug Mode:
-Enable or disable debug logs.
+🔹 Debug Mode
+Toggle debug logs on or off for troubleshooting.
 
-Database Table Name:
-Change the name of the database table if needed.
+🔹 Database Table Name
+Modify the database table name if necessary.
 
-Market Listing Settings:
-Set limits for item quantities and prices.
+🔹 Market Listing Settings
+Adjust the limits for item quantities and pricing structures.
 
-Notification Messages:
-Customize messages shown to players for various actions.
+🔹 Notification Messages
+Tailor the in-game messages shown to players for various market actions.
 
-Usage
+📦 Usage
+Opening the Market Interface
 Players can open the market interface using the /market command.
-Players can list items for sale by selecting an item from their inventory and specifying the quantity and price.
-Players can browse available listings and purchase items directly from other players.
-Dependencies
-ESX: Ensure you have the ESX framework installed.
-ox_inventory: This resource requires ox_inventory for inventory management.
-Contributing
-Feel free to make changes, but please credit me if re-published. Contributions are welcome!
-If you have suggestions or improvements, feel free to open an issue or submit a pull request.
 
-Author
-```
-Jakubi - AthenaNetwork
+Listing Items for Sale
+Players can list their items by selecting an item from their inventory, specifying the quantity, and setting a price.
 
+Purchasing Items
+Players can browse available listings and make purchases directly from other players.
 
+🔌 Dependencies
+ESX: Ensure you have the ESX framework installed for full compatibility.
+
+ox_inventory: This resource requires ox_inventory to manage player inventories.
+
+🤝 Contributing
+We welcome contributions! Feel free to make changes, but please credit the original author if republishing.
+If you have suggestions or improvements, open an issue or submit a pull request.
+
+📝 Author
+Jakubi
+AthenaNetwork
