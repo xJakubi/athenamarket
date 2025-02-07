@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const listingsContainer = document.querySelector('.market-listings');
     const marketContainer = document.getElementById('market-container');
     const closeBtn = document.getElementById('close-market-btn');
+    const refreshMarketBtn = document.getElementById('refresh-market-btn'); // Refresh button
     const sellFormContainer = document.getElementById('sell-form-container');
     const sellSubmitBtn = document.getElementById('sell-submit-btn');
     const sellCancelBtn = document.getElementById('sell-cancel-btn');
@@ -214,13 +215,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.addEventListener('message', function(event) {
         const data = event.data;
+        
         if (data.action === 'show') {
             marketContainer.style.display = 'block';
+            marketContainer.classList.add('overlay-visible'); // Show the market and overlay
+            refreshMarket(); // Refresh the market when it first opens
         } else if (data.action === 'hide') {
             marketContainer.style.display = 'none';
+            marketContainer.classList.remove('overlay-visible'); // Hide the market and overlay
             hideSellForm();
         } else if (data.type === 'updateListings') {
-            listingsContainer.innerHTML = '';
+            listingsContainer.innerHTML = ''; // Clear existing listings
             let groupedListings = {};
     
             // Group listings by item name and find the cheapest one
@@ -244,6 +249,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // Function to refresh the market
+    function refreshMarket() {
+        fetch(`https://${GetParentResourceName()}/getMarketListings`, {
+            method: 'POST',
+            body: JSON.stringify({})
+        }).then(response => response.json()).then(data => {
+            if (data && data.listings) {
+                listingsContainer.innerHTML = ''; // Clear existing listings
+                data.listings.forEach(function(listing) {
+                    const card = createListingCard(listing);
+                    listingsContainer.appendChild(card);
+                });
+            }
+        }).catch(err => {
+            console.error('Error refreshing market:', err);
+        });
+    }
+    
+    
+
     sellItemBtn.addEventListener('click', function() {
         fetch(`https://${GetParentResourceName()}/requestSellInventory`, {
             method: 'POST',
