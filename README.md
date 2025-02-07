@@ -1,6 +1,6 @@
 AthenaMarket:
   description: |
-    AthenaMarket is a sophisticated, player-driven market system for FiveM, seamlessly integrated with ox_inventory and ESX. 
+    AthenaMarket is a sophisticated, player-driven market system for FiveM, seamlessly integrated with ox_inventory and ESX.
     This resource empowers players to easily list items for sale and purchase items from others within a streamlined, user-friendly interface.
 
   features:
@@ -45,4 +45,3 @@ AthenaMarket:
   author:
     name: "Jakubi"
     network: "AthenaNetwork"
-
