@@ -1,26 +1,32 @@
-AthenaMarket
-AthenaMarket is a player-driven market system for FiveM, seamlessly integrated with ox_inventory and ESX. This resource enables players to list items for sale and purchase items from others in a user-friendly interface.
+# AthenaMarket
 
-Features
-Player-Driven Market:
+AthenaMarket is a **player-driven market system** for FiveM, seamlessly integrated with **ox_inventory** and **ESX**. This resource enables players to **list items for sale** and **purchase items** from others in a **user-friendly interface**.
 
-Players can list their items for sale and buy items from others.
-Inventory Integration:
+---
 
-Seamlessly integrates with ox_inventory to manage player inventories.
-Dynamic UI:
+## Features
 
-A modern and responsive user interface for market interactions.
-Configurable Settings:
+- **Player-Driven Market**:  
+  - Players can list their items for sale and buy items from others.
 
-Easily customizable settings for market behavior and notifications.
-Installation
-Download the Repository:
-Clone or download this repository to your FiveM resources folder.
+- **Inventory Integration**:  
+  - Seamlessly integrates with **ox_inventory** to manage player inventories.
 
-bash
-Copy
-git clone https://github.com/xJakubi/athenamarket.git
+- **Dynamic UI**:  
+  - A modern and responsive user interface for market interactions.
+
+- **Configurable Settings**:  
+  - Easily customizable settings for market behavior and notifications.
+
+---
+
+## Installation
+
+1. **Download the Repository**:  
+   Clone or download this repository to your FiveM resources folder.
+
+   ```bash
+   git clone https://github.com/xJakubi/athenamarket.git
 Add to server.cfg:
 Ensure you add the resource to your server.cfg file.
 
@@ -62,3 +68,8 @@ If you have suggestions or improvements, feel free to open an issue or submit a 
 Author
 Jakubi
 AthenaNetwork
+
+go
+Copy
+
+This will copy the entire README, maintaining the formatting for you!
