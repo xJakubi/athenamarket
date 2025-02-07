@@ -1,48 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Market Interface</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- Google Fonts for modern typography -->
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Interface</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for modern typography -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div id="market-container">
-    <header class="market-header">
-      <h1>Market</h1>
-      <!-- Close button in the top right -->
-      <button id="close-market-btn" class="close-btn">X</button>
-      <input type="text" id="search" placeholder="Search items...">
-    </header>
-    <div class="market-listings">
-      <!-- Listings will be dynamically generated here -->
+    <div id="market-container">
+        <!-- Market Header -->
+        <header class="market-header">
+            <h1>Market</h1>
+            <!-- Close button in the top right -->
+            <button id="close-market-btn" class="close-btn">X</button>
+            <input type="text" id="search" placeholder="Search items...">
+        </header>
+        <!-- Market Listings -->
+        <div class="market-listings">
+            <!-- Listings will be dynamically generated here -->
+        </div>
+        <footer class="market-footer">
+            <button id="sell-item-btn">Sell an Item</button>
+        </footer>
     </div>
-    <footer class="market-footer">
-      <button id="sell-item-btn">Sell an Item</button>
-    </footer>
-  </div>
-  
-  <!-- Sell Form Overlay (hidden by default) -->
-  <div id="sell-form-container" class="overlay">
-    <div class="sell-form">
-      <h2>Sell an Item</h2>
-      <label for="sell-item-name">Item Name</label>
-      <input type="text" id="sell-item-name" placeholder="Enter item name">
-      
-      <label for="sell-item-quantity">Quantity</label>
-      <input type="number" id="sell-item-quantity" placeholder="Enter quantity">
-      
-      <label for="sell-item-price">Price per unit</label>
-      <input type="number" id="sell-item-price" placeholder="Enter price">
-      
-      <div class="form-buttons">
-        <button id="sell-submit-btn">Submit</button>
-        <button id="sell-cancel-btn">Cancel</button>
-      </div>
+
+    <!-- Sell Form Overlay (hidden by default) -->
+    <div id="sell-form-container" class="overlay">
+        <div class="sell-form">
+            <h2>Sell an Item</h2>
+
+            <!-- Instead of entering a text value, the player selects from their inventory -->
+            <label for="sell-item-select">Select Item</label>
+            <select id="sell-item-select">
+                <option value="">--Select an Item--</option>
+            </select>
+
+            <label for="sell-item-quantity">Quantity</label>
+            <input type="number" id="sell-item-quantity" placeholder="Enter quantity">
+
+            <label for="sell-item-price">Price per unit</label>
+            <input type="number" id="sell-item-price" placeholder="Enter price">
+
+            <div class="form-buttons">
+                <button id="sell-submit-btn">Submit</button>
+                <button id="sell-cancel-btn">Cancel</button>
+            </div>
+        </div>
     </div>
-  </div>
-  
-  <script src="script.js"></script>
+
+    <script src="script.js"></script>
 </body>
 </html>
