@@ -67,6 +67,6 @@ If you have suggestions or improvements, feel free to open an issue or submit a 
 
 Author
 ```
-Jakubi AthenaNetwork
+Jakubi - AthenaNetwork
 
 
