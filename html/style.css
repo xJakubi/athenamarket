@@ -1,0 +1,263 @@
+/* General Styles */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    overflow: hidden;
+    font-family: 'Roboto', sans-serif;
+    color: #f0f0f0;
+    
+    /* Center the content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+/* Market Container - fixed positioning, centered, and blur effect */
+#market-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Ensures the container is truly centered */
+    max-width: 1000px;
+    padding: 20px;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.8); /* Dark semi-transparent background */
+    backdrop-filter: blur(10px); /* Blurs the area behind the market container */
+    border-radius: 12px;
+    z-index: 999; /* Ensures the market is on top of other elements */
+}
+
+/* Optional: Modify backdrop filter for better effect */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent dark overlay */
+    backdrop-filter: blur(5px); /* Optional, you can adjust the blur amount */
+    z-index: -1; /* Keep it behind the shop */
+}
+  
+  /* Header */
+  .market-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #333;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  
+  .market-header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    color: #00aaff;
+  }
+  
+  #search {
+    width: 250px;
+    padding: 10px;
+    border: none;
+    border-radius: 25px;
+    background-color: #2a2a2a;
+    color: #f0f0f0;
+    font-size: 1rem;
+  }
+  
+  /* Close Button */
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    color: #f0f0f0;
+    font-size: 1.5rem;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  /* Listings Grid */
+  .market-listings {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-gap: 20px;
+  }
+  
+  /* Listing Card */
+  .listing-card {
+    background: #2a2a2a;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .listing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0,0,0,0.4);
+  }
+  
+  /* Image Container */
+  .image-container {
+    width: 100%;
+    height: 150px;
+    background-color: #1f1f1f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .image-container img {
+    max-width: 80%;
+    max-height: 80%;
+  }
+  
+  /* Listing Details */
+  .listing-details {
+    padding: 15px;
+    flex-grow: 1;
+  }
+  
+  .listing-details h2 {
+    margin: 0 0 10px;
+    font-size: 1.4rem;
+    color: #00aaff;
+  }
+  
+  .listing-details p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+  }
+  
+  .price span,
+  .quantity span {
+    font-weight: 500;
+  }
+  
+  /* Buy Button */
+  .buy-btn {
+    background: #00aaff;
+    border: none;
+    color: #fff;
+    padding: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 0 0 12px 12px;
+    transition: background 0.2s;
+  }
+  
+  .buy-btn:hover {
+    background: #0088cc;
+  }
+  
+  /* Footer */
+  .market-footer {
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  #sell-item-btn {
+    background: #ffa500;
+    border: none;
+    color: #fff;
+    padding: 14px 28px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 25px;
+    transition: background 0.2s;
+  }
+  
+  #sell-item-btn:hover {
+    background: #cc8400;
+  }
+  
+  /* Sell Form Overlay */
+  .overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);  /* Semi-transparent background */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .sell-form {
+    background: #2a2a2a;
+    padding: 20px;
+    border-radius: 12px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+  }
+  
+  .sell-form h2 {
+    margin-top: 0;
+    color: #00aaff;
+    text-align: center;
+  }
+  
+  .sell-form label {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+  }
+  
+  .sell-form input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 4px;
+    background-color: #1f1f1f;
+    color: #f0f0f0;
+    font-size: 1rem;
+  }
+  
+  .form-buttons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .form-buttons button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  #sell-submit-btn {
+    background: #00aaff;
+    color: #fff;
+    margin-right: 5px;
+  }
+  
+  #sell-submit-btn:hover {
+    background: #0088cc;
+  }
+  
+  #sell-cancel-btn {
+    background: #ffa500;
+    color: #fff;
+    margin-left: 5px;
+  }
+  
+  #sell-cancel-btn:hover {
+    background: #cc8400;
+  }
