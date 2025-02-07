@@ -2,93 +2,148 @@
 
 ESX = exports['es_extended']:getSharedObject()
 
--- Local variable to store the player's full inventory (slots-based table)
-local playerInventory = {}
+-- Create the market_listings table on resource start.
+AddEventHandler('onResourceStart', function(resourceName)
+    if resourceName == GetCurrentResourceName() then
+        exports.oxmysql:execute([[ 
+            CREATE TABLE IF NOT EXISTS market_listings (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                seller VARCHAR(50) NOT NULL,
+                item VARCHAR(50) NOT NULL,
+                quantity INT NOT NULL,
+                price INT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ]], {}, function(rowsChanged)
+            print("Market table initialized or already exists.")
+            refreshMarketListings()  -- Initial refresh on resource start.
+        end)
+    end
+end)
 
--- Listen for ox_inventory:updateInventory event to update our local inventory.
-AddEventHandler('ox_inventory:updateInventory', function(changes)
-    if changes then
-        -- Merge changes into playerInventory.
-        for slot, value in pairs(changes) do
-            if value then
-                playerInventory[slot] = value
+-------------------------------------------------
+-- Event: List an Item for Sale
+-------------------------------------------------
+RegisterNetEvent('market:listItem')
+AddEventHandler('market:listItem', function(item, quantity, price)
+    local _source = source
+    local xPlayer = ESX.GetPlayerFromId(_source)
+    if not xPlayer then return end
+
+    -- Check if the player has enough of the item.
+    local itemCount = exports.ox_inventory:GetItemCount(_source, item)
+    if itemCount < quantity then
+        TriggerClientEvent('esx:showNotification', _source, "You don't have enough " .. item)
+        return
+    end
+
+    -- Remove the items from the player's inventory.
+    local removed = exports.ox_inventory:RemoveItem(_source, item, quantity)
+    if removed then
+        exports.oxmysql:execute([[ 
+            INSERT INTO market_listings (seller, item, quantity, price) 
+            VALUES (?, ?, ?, ?)
+        ]], {xPlayer.identifier, item, quantity, price}, function(insertId)
+            TriggerClientEvent('esx:showNotification', _source, "You have listed " .. quantity .. " " .. item .. " for sale at $" .. price .. " each.")
+            refreshMarketListings()  -- Refresh the market after listing an item.
+        end)
+    else
+        TriggerClientEvent('esx:showNotification', _source, "Failed to remove item from inventory.")
+    end
+end)
+
+-------------------------------------------------
+-- Event: Purchase an Item from the Market
+-------------------------------------------------
+RegisterNetEvent('market:buyItem')
+AddEventHandler('market:buyItem', function(item)
+    local _source = source
+    local xBuyer = ESX.GetPlayerFromId(_source)
+    if not xBuyer then return end
+
+    -- Query the lowest-priced listing for the specified item.
+    exports.oxmysql:query([[ 
+        SELECT * FROM market_listings 
+        WHERE item = ? 
+        ORDER BY price ASC 
+        LIMIT 1 
+    ]], {item}, function(result)
+        if result and #result > 0 then
+            local listing = result[1]
+            local price = listing.price
+            local listingId = listing.id
+            local sellerIdentifier = listing.seller
+
+            if xBuyer.getMoney() >= price then
+                xBuyer.removeMoney(price)
+                local added = exports.ox_inventory:AddItem(_source, item, 1)
+                if added then
+                    local newQuantity = listing.quantity - 1
+                    if newQuantity > 0 then
+                        exports.oxmysql:execute([[ 
+                            UPDATE market_listings 
+                            SET quantity = ? 
+                            WHERE id = ? 
+                        ]], {newQuantity, listingId}, function(updatedRows)
+                            -- Successfully updated quantity
+                        end)
+                    else
+                        exports.oxmysql:execute([[ 
+                            DELETE FROM market_listings 
+                            WHERE id = ? 
+                        ]], {listingId}, function(deletedRows)
+                            -- Successfully deleted listing when quantity reaches 0
+                        end)
+                    end
+
+                    -- Credit the seller: if the seller is online, add money directly; otherwise, update the DB.
+                    local xSeller = ESX.GetPlayerFromIdentifier(sellerIdentifier)
+                    if xSeller then
+                        xSeller.addMoney(price)
+                        TriggerClientEvent('esx:showNotification', xSeller.source, "Your " .. item .. " was sold for $" .. price)
+                    else
+                        exports.oxmysql:execute([[ 
+                            UPDATE users 
+                            SET bank = bank + ? 
+                            WHERE identifier = ? 
+                        ]], {price, sellerIdentifier})
+                    end
+
+                    TriggerClientEvent('esx:showNotification', _source, "You bought a " .. item .. " for $" .. price)
+                    refreshMarketListings()  -- Refresh the market after a purchase.
+                else
+                    xBuyer.addMoney(price)
+                    TriggerClientEvent('esx:showNotification', _source, "Failed to add item to your inventory.")
+                end
             else
-                playerInventory[slot] = nil
+                TriggerClientEvent('esx:showNotification', _source, "Not enough money to buy this item.")
             end
+        else
+            TriggerClientEvent('esx:showNotification', _source, "No listings available for this item.")
         end
-        print("Inventory updated (merged): " .. json.encode(playerInventory))
-    else
-        print("ox_inventory:updateInventory fired with no data")
-    end
+    end)
 end)
 
--- Add a chat suggestion for the /market command.
-Citizen.CreateThread(function()
-    TriggerEvent('chat:addSuggestion', '/market', 'Open the market menu')
+-------------------------------------------------
+-- Function: Refresh Market Listings
+-------------------------------------------------
+function refreshMarketListings()
+    exports.oxmysql:query("SELECT * FROM market_listings", {}, function(result)
+        -- Broadcast the updated listings to all clients.
+        TriggerClientEvent('market:refreshListings', -1, result)
+    end)
+end
+
+-------------------------------------------------
+-- Event: Get Market Listings (When requested by the client)
+-------------------------------------------------
+RegisterNetEvent('market:getMarketListings') 
+AddEventHandler('market:getMarketListings', function()
+    local _source = source
+    -- Get the market listings from the database
+    exports.oxmysql:query("SELECT * FROM market_listings", {}, function(result)
+        -- Send the listings to the requesting client
+        TriggerClientEvent('market:refreshListings', _source, result)
+    end)
 end)
 
--- When /market is executed, show the market UI.
-RegisterCommand('market', function(source, args, rawCommand)
-    SetNuiFocus(true, true)
-    SendNUIMessage({ action = "show" })
-end, false)
-
--- NUI callback: Close the market UI.
-RegisterNUICallback('closeMarket', function(data, cb)
-    SetNuiFocus(false, false)
-    SendNUIMessage({ action = "hide" })
-    cb('ok')
-end)
-
--- NUI callback: Request the player's inventory for selling.
-RegisterNUICallback('requestSellInventory', function(data, cb)
-    local sellItems = {}
-    for slot, item in pairs(playerInventory) do
-        if item and item.count and item.count > 0 then
-            table.insert(sellItems, {
-                name = item.name,
-                label = item.label or item.name,
-                count = item.count
-            })
-        end
-    end
-    print("Sending sell inventory to NUI: " .. json.encode(sellItems))
-    SendNUIMessage({
-        action = "populateSellItems",
-        items = sellItems
-    })
-    cb('ok')
-end)
-
--- NUI callback: Handle submission of the sell form.
-RegisterNUICallback('submitSellForm', function(data, cb)
-    local item = data.item
-    local quantity = tonumber(data.quantity)
-    local price = tonumber(data.price)
-    if item and quantity and price then
-        TriggerServerEvent('market:listItem', item, quantity, price)
-    else
-        print("Invalid sell form data")
-    end
-    cb('ok')
-end)
-
--- NUI callback: Handle purchase requests.
-RegisterNUICallback('buyItem', function(data, cb)
-    local item = data.item
-    if item then
-        TriggerServerEvent('market:buyItem', item)
-    else
-        print("Invalid item purchase request")
-    end
-    cb('ok')
-end)
-
--- Listen for market listings refresh event from the server.
-RegisterNetEvent('market:refreshListings')
-AddEventHandler('market:refreshListings', function(listings)
-    SendNUIMessage({
-        type = 'updateListings',
-        listings = listings
-    })
-end)
