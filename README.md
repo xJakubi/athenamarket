@@ -66,10 +66,7 @@ Feel free to make changes, but please credit me if re-published. Contributions a
 If you have suggestions or improvements, feel free to open an issue or submit a pull request.
 
 Author
-Jakubi
-AthenaNetwork
+```
+Jakubi AthenaNetwork
 
-go
-Copy
 
-This will copy the entire README, maintaining the formatting for you!
