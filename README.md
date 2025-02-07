@@ -1,5 +1,3 @@
-# AthenaMarket
-
 Overview
 AthenaMarket is a player-driven market system for FiveM, integrated with ox_inventory and ESX. This resource allows players to list items for sale and purchase items from other players in a user-friendly interface.
 
@@ -44,9 +42,7 @@ Dependencies
 ESX: Ensure you have the ESX framework installed.
 ox_inventory: This resource requires ox_inventory for inventory management.
 Contributing
-Contributions are welcome! If you have suggestions or improvements, feel free to open an issue or submit a pull request.
-
-Feel free to change it, but please credit me if re-published :(
+Feel free to change it, but please credit me if re-published. Contributions are welcome! If you have suggestions or improvements, feel free to open an issue or submit a pull request.
 
 Author
 Jakubi - AthenaNetwork
